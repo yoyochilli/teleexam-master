@@ -1,0 +1,222 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#071426" />
+  <title>星辰期末高效通｜冲刺工作台</title>
+  <style>
+    :root { --bg:#071426; --panel:#0d2038; --panel-2:#102842; --line:rgba(190,225,255,.14); --text:#f2f7ff; --muted:#93a9c3; --cyan:#48e7e2; --blue:#4a8dff; --gold:#ffbd57; --red:#ff7c73; --green:#5fe2a3; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-width:320px; color:var(--text); font:15px/1.5 "Microsoft YaHei", "PingFang SC", system-ui, sans-serif; background:radial-gradient(circle at 78% -5%, #173e68 0, transparent 34rem), linear-gradient(140deg,#071426 0%,#08182b 48%,#07121f 100%); }
+    button,input { font:inherit; } button { cursor:pointer; }
+    .app { display:grid; grid-template-columns:256px minmax(0,1fr); min-height:100vh; }
+    .sidebar { position:sticky; top:0; height:100vh; display:flex; flex-direction:column; padding:24px 16px; border-right:1px solid var(--line); background:rgba(5,16,31,.74); backdrop-filter:blur(18px); }
+    .brand { display:flex; align-items:center; gap:11px; padding:4px 8px 26px; font-weight:700; letter-spacing:.03em; }
+    .brand-mark { display:grid; place-items:center; width:32px; height:32px; border-radius:10px; color:#051322; font-weight:900; background:linear-gradient(145deg,var(--cyan),#71a7ff); box-shadow:0 0 24px rgba(72,231,226,.3); }
+    .workspace-label { margin:0 8px 10px; color:var(--muted); font-size:12px; letter-spacing:.12em; }
+    .course { display:flex; align-items:center; gap:10px; width:100%; padding:12px; color:var(--text); background:linear-gradient(90deg,rgba(72,231,226,.13),rgba(72,231,226,.03)); border:1px solid rgba(72,231,226,.3); border-radius:12px; text-align:left; }
+    .course-dot,.status-dot { width:9px; height:9px; border-radius:50%; background:var(--cyan); box-shadow:0 0 12px var(--cyan); flex:none; }
+    nav { margin-top:30px; display:grid; gap:6px; }
+    .nav-item { display:flex; align-items:center; gap:12px; width:100%; padding:10px 12px; color:var(--muted); background:transparent; border:0; border-radius:10px; text-align:left; }
+    .nav-item.active { color:var(--text); background:rgba(255,255,255,.07); }
+    .nav-icon { width:18px; text-align:center; color:var(--cyan); }
+    .side-bottom { margin-top:auto; padding:14px 12px; border:1px solid var(--line); border-radius:12px; background:rgba(255,255,255,.035); }
+    .side-bottom p { margin:4px 0 0; color:var(--muted); font-size:12px; }
+    main { padding:28px clamp(20px,4vw,56px) 42px; overflow:hidden; }
+    .topbar { display:flex; justify-content:space-between; align-items:center; gap:16px; margin-bottom:26px; }
+    .eyebrow { display:flex; align-items:center; gap:8px; color:var(--cyan); font-size:12px; font-weight:700; letter-spacing:.12em; }
+    h1 { margin:4px 0 0; font-size:clamp(25px,3vw,38px); letter-spacing:-.04em; }
+    .top-actions { display:flex; gap:10px; }
+    .button { border:1px solid var(--line); border-radius:9px; padding:10px 14px; color:var(--text); background:rgba(255,255,255,.04); transition:.2s ease; }
+    .button:hover { transform:translateY(-1px); border-color:rgba(72,231,226,.55); }
+    .button.primary { color:#031222; border-color:transparent; font-weight:700; background:linear-gradient(100deg,var(--cyan),#78a7ff); }
+    .kpis { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-bottom:16px; }
+    .kpi { padding:16px; border:1px solid var(--line); border-radius:14px; background:linear-gradient(145deg,rgba(18,45,73,.94),rgba(10,27,48,.9)); box-shadow:inset 0 1px 0 rgba(255,255,255,.035); }
+    .kpi-label { color:var(--muted); font-size:13px; } .kpi strong { display:block; margin:4px 0 2px; font-size:27px; letter-spacing:-.03em; } .kpi small { color:var(--green); }
+    .layout { display:grid; grid-template-columns:minmax(350px,1.02fr) minmax(430px,1.38fr); gap:16px; }
+    .stack { display:grid; gap:16px; }
+    .panel { position:relative; overflow:hidden; padding:19px; border:1px solid var(--line); border-radius:16px; background:linear-gradient(145deg,rgba(16,40,66,.96),rgba(9,25,45,.96)); box-shadow:0 18px 50px rgba(0,0,0,.15); }
+    .panel::before { content:""; position:absolute; inset:0; pointer-events:none; background:linear-gradient(130deg,rgba(255,255,255,.035),transparent 34%); }
+    .panel-head { position:relative; display:flex; justify-content:space-between; align-items:start; gap:10px; margin-bottom:16px; }
+    .panel h2 { margin:0; font-size:16px; letter-spacing:.01em; } .panel-sub { margin:3px 0 0; color:var(--muted); font-size:12px; }
+    .tag { display:inline-flex; align-items:center; gap:5px; padding:4px 8px; border:1px solid rgba(72,231,226,.25); border-radius:99px; color:var(--cyan); background:rgba(72,231,226,.06); font-size:12px; white-space:nowrap; }
+    .source-list { position:relative; display:grid; gap:9px; }
+    .source { display:grid; grid-template-columns:31px 1fr auto; align-items:center; gap:10px; padding:11px; border:1px solid rgba(190,225,255,.1); border-radius:11px; background:rgba(3,15,29,.25); }
+    .source-icon { display:grid; place-items:center; width:31px; height:31px; border-radius:8px; color:var(--cyan); background:rgba(72,231,226,.1); font-size:12px; font-weight:800; } .source strong { display:block; font-size:13px; } .source span { color:var(--muted); font-size:12px; } .source em { color:var(--green); font-size:12px; font-style:normal; }
+    .drop { position:relative; display:flex; align-items:center; justify-content:center; min-height:88px; margin-top:12px; padding:12px; border:1px dashed rgba(72,231,226,.48); border-radius:12px; color:var(--muted); text-align:center; background:rgba(72,231,226,.035); }
+    .drop input { position:absolute; inset:0; width:100%; opacity:0; cursor:pointer; } .drop b { color:var(--cyan); }
+    .radar { display:grid; grid-template-columns:155px 1fr; align-items:center; gap:18px; }
+    .radar-svg { width:155px; height:155px; } .ring { fill:none; stroke:rgba(190,225,255,.15); stroke-width:1; } .radar-fill { fill:rgba(72,231,226,.25); stroke:var(--cyan); stroke-width:2; } .radar-axis { stroke:rgba(190,225,255,.22); stroke-width:1; }
+    .legend { display:grid; gap:11px; } .legend-item { display:grid; grid-template-columns:1fr auto; gap:8px; align-items:center; } .bar { height:5px; overflow:hidden; margin-top:5px; border-radius:99px; background:rgba(255,255,255,.1); } .bar i { display:block; height:100%; border-radius:99px; background:linear-gradient(90deg,var(--cyan),var(--blue)); }
+    .evidence { display:grid; gap:9px; } .evidence-card { position:relative; padding:13px 14px 13px 16px; border-left:2px solid var(--cyan); border-radius:0 10px 10px 0; background:rgba(72,231,226,.055); } .evidence-card.warn { border-left-color:var(--gold); background:rgba(255,189,87,.055); } .evidence-card p { margin:3px 0 0; color:#c7d8e9; font-size:13px; } .evidence-card small { color:var(--cyan); } .evidence-card.warn small { color:var(--gold); }
+    .analysis { min-height:296px; } .analysis-grid { position:relative; display:grid; grid-template-columns:1.05fr .95fr; gap:12px; }
+    .question { padding:15px; border:1px solid rgba(190,225,255,.12); border-radius:12px; background:rgba(3,15,29,.24); } .question h3 { margin:0 0 8px; font-size:15px; } .question p { margin:0; color:#bed0e2; font-size:13px; } .step { display:flex; align-items:center; gap:9px; padding:8px 0; border-top:1px solid rgba(190,225,255,.1); color:#cbd9e8; font-size:13px; } .step:first-of-type { border-top:0; } .num { display:grid; place-items:center; width:20px; height:20px; border-radius:50%; background:rgba(72,231,226,.14); color:var(--cyan); font-size:11px; font-weight:700; }
+    .plan { display:grid; grid-template-columns:88px 1fr; gap:10px; } .date { padding:9px 7px; border-radius:10px; color:var(--muted); text-align:center; background:rgba(255,255,255,.05); font-size:12px; } .date b { display:block; color:var(--text); font-size:17px; } .plan-item { padding:9px 11px; border-radius:10px; background:rgba(3,15,29,.25); color:#dbe8f5; font-size:13px; } .plan-item b { display:block; color:var(--cyan); font-size:12px; }
+    .toast { position:fixed; right:26px; bottom:24px; z-index:3; max-width:320px; padding:12px 15px; border:1px solid rgba(95,226,163,.32); border-radius:11px; color:#dffbed; background:#102c2e; box-shadow:0 14px 35px rgba(0,0,0,.35); transform:translateY(130px); opacity:0; transition:.32s ease; } .toast.show { transform:translateY(0); opacity:1; }
+    .modal { position:fixed; inset:0; z-index:4; display:none; place-items:center; padding:20px; background:rgba(2,8,16,.72); backdrop-filter:blur(5px); } .modal.open { display:grid; } .modal-card { width:min(610px,100%); padding:24px; border:1px solid rgba(72,231,226,.35); border-radius:18px; background:#0c2038; box-shadow:0 30px 90px rgba(0,0,0,.45); } .modal-card h2 { margin:0 0 8px; } .timeline { display:grid; gap:9px; margin:18px 0; } .timeline div { display:grid; grid-template-columns:54px 1fr; gap:12px; padding-bottom:9px; border-bottom:1px solid var(--line); color:#c6d8e9; } .timeline b { color:var(--cyan); }
+    .recording .sidebar { width:72px; padding-inline:12px; } .recording .brand span,.recording .workspace-label,.recording .course span,.recording .nav-item span:not(.nav-icon),.recording .side-bottom { display:none; } .recording .app { grid-template-columns:72px minmax(0,1fr); }
+    @media (max-width:1050px) { .kpis { grid-template-columns:repeat(2,1fr); } .layout { grid-template-columns:1fr; } }
+    @media (max-width:700px) { .app { display:block; } .sidebar { position:relative; width:auto; height:auto; padding:14px; border-right:0; border-bottom:1px solid var(--line); } .brand { padding-bottom:12px; } nav { display:flex; overflow:auto; margin-top:8px; } .nav-item { width:auto; white-space:nowrap; } .side-bottom { display:none; } main { padding:20px 14px 30px; } .topbar { align-items:start; } .top-actions .button:first-child { display:none; } .kpis { grid-template-columns:1fr 1fr; gap:9px; } .kpi { padding:12px; } .kpi strong { font-size:22px; } .radar { grid-template-columns:130px 1fr; gap:8px; } .radar-svg { width:130px; height:130px; } .analysis-grid { grid-template-columns:1fr; } .recording .app { display:block; } .recording .sidebar { width:auto; } }
+    /* Pastel palette: inspired by the supplied cream, blush, powder-blue and lavender mood. */
+    :root { --bg:#fffaf2; --panel:#fffdf9; --panel-2:#f8edf1; --line:#ecdbe0; --text:#685461; --muted:#a88f9b; --cyan:#8ebedc; --blue:#aca6d5; --gold:#eacb7f; --red:#eaa4b3; --green:#92c8ae; }
+    body { background:radial-gradient(circle at 78% -5%,rgba(222,235,248,.78) 0,transparent 31rem),radial-gradient(circle at 20% 82%,rgba(252,223,231,.72) 0,transparent 28rem),linear-gradient(145deg,#fffdf8 0%,#fff9ef 52%,#f8f4ff 100%); }
+    .sidebar { background:rgba(255,252,247,.82); }
+    .brand-mark { color:#fff; background:linear-gradient(145deg,#e9a9bb,#b9b5df); box-shadow:0 8px 18px rgba(206,155,180,.25); }
+    .course { background:linear-gradient(90deg,#fff1f4,#f8f1ff); border-color:#ecdce8; }
+    .course-dot,.status-dot { background:#e9a4b5; box-shadow:0 0 10px rgba(233,164,181,.45); }
+    .nav-item.active { background:#f8edf3; }
+    .side-bottom { background:#fff8fb; }
+    .button { background:#fffdfa; }
+    .button:hover { border-color:#c9b7d4; }
+    .button.primary { color:#fff; background:linear-gradient(100deg,#e7a8b7,#afafd8); }
+    .kpi { background:linear-gradient(145deg,#fffefd,#fcf5f7); box-shadow:0 10px 25px rgba(195,165,179,.09); }
+    .panel { background:linear-gradient(145deg,#fffefd,#fff9fb); box-shadow:0 16px 40px rgba(190,161,178,.11); }
+    .panel::before { background:linear-gradient(130deg,rgba(255,255,255,.82),transparent 34%); }
+    .tag { border-color:#d8c9e5; color:#988bb9; background:#faf4ff; }
+    .source { border-color:#f0e4e7; background:#fffdfa; }
+    .source-icon { color:#8ba7c9; background:#eaf4fa; }
+    .source em { color:#77af95; }
+    .drop { border-color:#c7b8d9; background:#fbf5ff; }
+    .ring { stroke:#eadfe9; } .radar-fill { fill:rgba(168,187,221,.28); stroke:#94b6d8; } .radar-axis { stroke:#e3d6e3; }
+    .radar-svg text { fill:#9d8794; }
+    .bar { background:#f0e5eb; } .bar i { background:linear-gradient(90deg,#91bfd7,#bbb0d7); }
+    .evidence-card { border-left-color:#94b9d7; background:#f2f8fc; } .evidence-card.warn { border-left-color:#e5bf78; background:#fff9eb; } .evidence-card p { color:#806d78; } .evidence-card small { color:#7aa8ca; } .evidence-card.warn small { color:#c69d4a; }
+    .question { border-color:#eee1e8; background:#fffdfc; } .question p { color:#806f78; } .step { border-top-color:#f0e5e9; color:#806f78; } .num { background:#eaf4fa; color:#79a6c8; }
+    .date { background:#f6eff7; } .plan-item { background:#fffdfb; color:#806f78; } .plan-item b { color:#8ea9c8; }
+    .toast { border-color:#badbc9; color:#527b67; background:#f5fff9; box-shadow:0 14px 35px rgba(171,146,160,.18); }
+    .modal { background:rgba(108,81,96,.28); } .modal-card { border-color:#ead8e2; background:#fffdf9; box-shadow:0 30px 90px rgba(111,81,100,.28); } .timeline div { color:#806f78; } .timeline b { color:#8ca9cb; }
+    .study-companion { position:fixed; right:-12px; bottom:-14px; z-index:2; width:clamp(220px,22vw,360px); pointer-events:none; filter:drop-shadow(0 12px 18px rgba(176,138,155,.16)); }
+    .course-picker { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:10px; margin:18px 0; }
+    .course-option { padding:14px; color:var(--text); text-align:left; border:1px solid #eadce3; border-radius:13px; background:#fffdfb; }
+    .course-option:hover,.course-option.selected { border-color:#c7b8d9; background:#faf4ff; }
+    .course-option strong,.course-option small { display:block; } .course-option small { margin-top:4px; color:var(--muted); }
+    @media (max-width:1050px) { .study-companion { width:210px; opacity:.84; } }
+    @media (max-width:700px) { .study-companion { display:none; } }
+  </style>
+</head>
+<body>
+  <div class="app" id="app">
+    <aside class="sidebar">
+      <div class="brand"><div class="brand-mark">T</div><span>星辰期末高效通</span></div>
+      <p class="workspace-label">当前课程</p>
+      <div class="course"><i class="course-dot"></i><span id="courseTitle">我的学习资料 · 等待添加</span></div>
+      <nav aria-label="工作台导航">
+        <button class="nav-item active"><span class="nav-icon">◈</span><span>冲刺总览</span></button>
+        <button class="nav-item"><span class="nav-icon">▣</span><span>资料证据链</span></button>
+        <button class="nav-item"><span class="nav-icon">◇</span><span>真题陷阱卡</span></button>
+        <button class="nav-item"><span class="nav-icon">◌</span><span>复习日程</span></button>
+      </nav>
+      <div class="side-bottom"><div class="tag"><i class="status-dot"></i> 本地资料范围</div><p>仅分析已授权的课程文件</p></div>
+    </aside>
+    <main>
+      <header class="topbar">
+        <div><div class="eyebrow"><i class="status-dot"></i> TELEAGENT SKILL · EVIDENCE FLOW</div><h1>把复习资料变成下一步行动</h1></div>
+        <div class="top-actions"><button class="button" id="recordMode">录制模式</button><button class="button primary" id="generate">生成冲刺方案</button></div>
+      </header>
+      <section class="kpis" aria-label="学习进度概览">
+        <div class="kpi"><span class="kpi-label">已建立证据</span><strong id="evidenceCount">24</strong><small id="pptEvidence">+ 6 条来自课程 PPT</small></div>
+        <div class="kpi"><span class="kpi-label">高优先级考点</span><strong id="priorityCount">3</strong><small id="questionCount">含 2 道高分真题</small></div>
+        <div class="kpi"><span class="kpi-label">当前掌握度</span><strong id="mastery">62%</strong><small id="masteryNote">较上次 + 8%</small></div>
+        <div class="kpi"><span class="kpi-label">下一次主动回忆</span><strong id="recallDate">今晚</strong><small id="recallNote">20:30 · 约 18 分钟</small></div>
+      </section>
+      <section class="layout">
+        <div class="stack">
+          <article class="panel">
+            <div class="panel-head"><div><h2>资料中心</h2><p class="panel-sub">保留来源，避免重点失真</p></div><span class="tag" id="materialTag">3 类材料</span></div>
+            <div class="source-list" id="sourceList">
+              <div class="source"><div class="source-icon">PPT</div><div><strong>第 4 章 · 机械能守恒</strong><span>18 页 · 已提取文字与页码</span></div><em>已解析</em></div>
+              <div class="source"><div class="source-icon">卷</div><div><strong>2025 期末回忆题</strong><span>6 题 · 42 分</span></div><em>已建卡</em></div>
+              <div class="source"><div class="source-icon">纲</div><div><strong>课程考试范围</strong><span>5 个核心模块</span></div><em>已关联</em></div>
+            </div>
+            <label class="drop"><input id="fileInput" type="file" accept=".pptx,.pdf,.txt" multiple /><span>添加你的 <b>PPTX / PDF / TXT</b><br />工作台会为每份资料保留可追溯来源</span></label>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>考点雷达</h2><p class="panel-sub">由分值、出现频率与掌握度共同决定</p></div><span class="tag">可解释排序</span></div>
+            <div class="radar" id="radarContent">
+              <svg class="radar-svg" viewBox="0 0 160 160" role="img" aria-label="动力学、机械能、振动、波动的考点雷达图"><circle class="ring" cx="80" cy="80" r="58"/><circle class="ring" cx="80" cy="80" r="37"/><circle class="ring" cx="80" cy="80" r="17"/><path class="radar-axis" d="M80 18V142M18 80H142M36 36L124 124M124 36L36 124"/><path class="radar-fill" d="M80 24 L135 80 L82 111 L40 80 Z"/><text x="69" y="14" fill="#b8cce2" font-size="10">机械能</text><text x="129" y="76" fill="#b8cce2" font-size="10">波动</text><text x="68" y="151" fill="#b8cce2" font-size="10">振动</text><text x="5" y="76" fill="#b8cce2" font-size="10">动力学</text></svg>
+              <div class="legend"><div class="legend-item"><div>机械能 <div class="bar"><i style="width:91%"></i></div></div><b>高</b></div><div class="legend-item"><div>波动 <div class="bar"><i style="width:74%"></i></div></div><b>中</b></div><div class="legend-item"><div>动力学 <div class="bar"><i style="width:66%"></i></div></div><b>中</b></div><div class="legend-item"><div>振动 <div class="bar"><i style="width:43%"></i></div></div><b>低</b></div></div>
+            </div>
+          </article>
+        </div>
+        <div class="stack">
+          <article class="panel analysis">
+            <div class="panel-head"><div><h2>真题陷阱剖析</h2><p class="panel-sub">每个建议都可追溯到具体材料</p></div><span class="tag">证据完整度 100%</span></div>
+            <div class="analysis-grid" id="analysisContent">
+              <div class="question"><h3>小球完整圆周运动的最小初速度</h3><p>“恰能完整圆周”并非只在最低点列方程。需要先找到最高点的临界条件，再用机械能守恒回推。</p><div class="step"><span class="num">1</span>最高点：绳的拉力临界为 0</div><div class="step"><span class="num">2</span>连接最高点与最低点的机械能</div><div class="step"><span class="num">3</span>检查系统边界与速度平方正负</div></div>
+              <div class="evidence"><div class="evidence-card"><small>课程 PPT · 第 12 页</small><p>竖直圆周运动的临界条件</p></div><div class="evidence-card"><small>期末回忆题 · 第 1 题 · 12 分</small><p>完整圆周运动与最小初速度</p></div><div class="evidence-card warn"><small>避坑提示</small><p>不要把最低点的向心力方程当成临界条件。</p></div></div>
+            </div>
+          </article>
+          <article class="panel">
+            <div class="panel-head"><div><h2>冲刺日程</h2><p class="panel-sub">基于薄弱点生成主动回忆任务</p></div><span class="tag">3 次复习节点</span></div>
+            <div class="plan" id="planContent"><div class="date"><b>今天</b>20:30</div><div class="plan-item"><b>首次主动回忆 · 18 分钟</b>遮住答案，完成“机械能守恒”3 张真题卡。</div><div class="date"><b>+ 3 天</b>19:45</div><div class="plan-item"><b>错因复盘 · 12 分钟</b>只重做本轮错题，核对系统边界与公式条件。</div><div class="date"><b>+ 7 天</b>20:00</div><div class="plan-item"><b>限时综合题 · 20 分钟</b>完成 1 道综合题，更新掌握度与雷达优先级。</div></div>
+          </article>
+        </div>
+      </section>
+    </main>
+  </div>
+  <img class="study-companion" src="./study-companion.png" alt="夜读学习陪伴插画" />
+  <div class="toast" id="toast" role="status">冲刺方案已更新：已优先安排机械能守恒与真题陷阱复盘。</div>
+  <div class="modal" id="modal" role="dialog" aria-modal="true" aria-labelledby="videoTitle"><div class="modal-card"><h2 id="videoTitle">90 秒演示录制脚本</h2><p class="panel-sub">从真实资料到可执行复习动作，建议全程录屏。</p><div class="timeline"><div><b>00:00</b><span>打开工作台，展示课程资料、真题与考纲已被纳入同一课程。</span></div><div><b>00:15</b><span>拖入课程 PPTX，强调每条结论保留幻灯片页码来源。</span></div><div><b>00:35</b><span>点击高优先级考点，展示真题分值、命题陷阱与破题步骤。</span></div><div><b>00:55</b><span>展示雷达表如何结合分值、频率和掌握度排序。</span></div><div><b>01:10</b><span>点击生成冲刺方案，展示 1、3、7 天主动回忆计划。</span></div><div><b>01:25</b><span>以“可追溯、可自测、可执行”收束，展示 TeleAgent 技能包。</span></div></div><button class="button primary" id="closeModal">开始录制</button></div></div>
+  <script>
+    const toast = document.getElementById('toast');
+    const showToast = text => { toast.textContent = text; toast.classList.add('show'); setTimeout(()=>toast.classList.remove('show'), 3600); };
+    const courses = {
+      custom: { name:'我的学习资料', subtitle:'等待添加', evidence:'0', ppt:'添加课件后建立证据链', priority:'—', questions:'等待资料解析', mastery:'—', masteryNote:'完成自测后更新', recall:'待安排', recallNote:'添加资料后生成计划', sources:[], radar:[['考点一',0,'待解析'],['考点二',0,'待解析'],['考点三',0,'待解析'],['考点四',0,'待解析']], question:'先添加你的学习资料', explanation:'添加课件、讲义、笔记或真题后，TeleAgent 会按资料来源建立考点、真题陷阱与复习行动。', steps:['添加课程 PPTX、PDF 或 TXT','调用技能解析资料并保留来源','根据薄弱点生成可执行复习计划'], evidenceCards:[['等待课程材料','资料解析后显示页码、段落或题号依据'],['等待真题或笔记','导入后建立可追溯证据卡']], pitfall:'复习结论必须以你上传的资料为依据，避免脱离课程范围。', plan:[['第 1 步','添加资料','导入资料','上传课程课件、讲义、笔记或真题。'],['第 2 步','解析资料','提取证据','工作台提取 PPT 页码或 TXT 学习单元。'],['第 3 步','开始复习','生成计划','在 TeleAgent 中据证据链生成复习行动。']] },
+      physics: { name:'大学物理', subtitle:'期末冲刺', evidence:'24', ppt:'+ 6 条来自课程 PPT', priority:'3', questions:'含 2 道高分真题', mastery:'62%', masteryNote:'较上次 + 8%', recall:'今晚', recallNote:'20:30 · 约 18 分钟', sources:[['PPT','第 4 章 · 机械能守恒','18 页 · 已提取文字与页码','已解析'],['卷','2025 期末回忆题','6 题 · 42 分','已建卡'],['纲','课程考试范围','5 个核心模块','已关联']], radar:[['机械能',91,'高'],['波动',74,'中'],['动力学',66,'中'],['振动',43,'低']], question:'小球完整圆周运动的最小初速度', explanation:'“恰能完整圆周”并非只在最低点列方程。需要先找到最高点的临界条件，再用机械能守恒回推。', steps:['最高点：绳的拉力临界为 0','连接最高点与最低点的机械能','检查系统边界与速度平方正负'], evidenceCards:[['课程 PPT · 第 12 页','竖直圆周运动的临界条件'],['期末回忆题 · 第 1 题 · 12 分','完整圆周运动与最小初速度']], pitfall:'不要把最低点的向心力方程当成临界条件。', plan:[['今天','20:30','首次主动回忆 · 18 分钟','遮住答案，完成“机械能守恒”3 张真题卡。'],['+ 3 天','19:45','错因复盘 · 12 分钟','只重做本轮错题，核对系统边界与公式条件。'],['+ 7 天','20:00','限时综合题 · 20 分钟','完成 1 道综合题，更新掌握度与雷达优先级。']] },
+      ds: { name:'数据结构', subtitle:'期末冲刺', evidence:'21', ppt:'+ 5 条来自课程 PPT', priority:'4', questions:'含 3 道算法综合题', mastery:'55%', masteryNote:'图算法仍需巩固', recall:'明晚', recallNote:'19:30 · 约 22 分钟', sources:[['PPT','第 6 章 · 图的遍历与最短路径','23 页 · 已提取文字与页码','已解析'],['卷','历年算法设计题','8 题 · 56 分','已建卡'],['纲','课程考试范围','6 个核心模块','已关联']], radar:[['图',92,'高'],['树',76,'中'],['排序',63,'中'],['复杂度',48,'低']], question:'Dijkstra 算法的适用边界与复杂度', explanation:'最短路径题先判断边权条件，再选算法与数据结构；不能在含负权边场景直接套用 Dijkstra。', steps:['识别边权是否全部非负','写出初始化与松弛规则','根据邻接表和优先队列分析复杂度'], evidenceCards:[['课程 PPT · 第 18 页','Dijkstra 的非负权边前提'],['历年算法设计题 · 第 3 题 · 15 分','最短路径与复杂度分析']], pitfall:'不要把“无负环”误当成 Dijkstra 的适用条件。', plan:[['今天','19:30','代码追踪 · 22 分钟','手推 1 次最短路径更新过程，标注每轮松弛。'],['+ 3 天','20:10','错因复盘 · 15 分钟','只重做图算法错题，核对边权与初始化。'],['+ 7 天','19:45','限时设计题 · 25 分钟','完成 1 道图综合题，更新复杂度判断卡。']] },
+      history: { name:'中国近现代史纲要', subtitle:'期末冲刺', evidence:'18', ppt:'+ 4 条来自课程 PPT', priority:'3', questions:'含 3 道材料辨析题', mastery:'68%', masteryNote:'时间线掌握稳定', recall:'今晚', recallNote:'21:00 · 约 16 分钟', sources:[['PPT','专题三 · 新民主主义革命','26 页 · 已提取文字与页码','已解析'],['卷','期末真题与材料题','9 题 · 45 分','已建卡'],['纲','章节考点清单','7 个主题模块','已关联']], radar:[['事件线',88,'高'],['理论',72,'中'],['人物',61,'中'],['辨析',46,'低']], question:'如何区分“新文化运动”与“五四运动”的历史定位', explanation:'概念辨析题需要同时锁定时间、主体、内容和历史影响，避免只凭关键词作答。', steps:['先定位时间与社会背景','再比较参与主体与核心诉求','最后用历史影响完成区分'], evidenceCards:[['课程 PPT · 第 9 页','新文化运动的思想启蒙意义'],['期末材料题 · 第 2 题 · 8 分','五四运动的历史特点']], pitfall:'不要把思想文化运动与群众爱国运动简单视为同一事件。', plan:[['今天','21:00','时间线回忆 · 16 分钟','不看资料复述专题三的关键节点和因果。'],['+ 3 天','20:20','概念辨析 · 12 分钟','完成 6 组易混概念卡并标注依据。'],['+ 7 天','20:40','材料题训练 · 18 分钟','限时回答 1 道材料题，核对采分点。']] },
+      management: { name:'管理学原理', subtitle:'期末冲刺', evidence:'20', ppt:'+ 5 条来自课程 PPT', priority:'3', questions:'含 2 道案例分析题', mastery:'59%', masteryNote:'模型应用待强化', recall:'明晚', recallNote:'20:00 · 约 18 分钟', sources:[['PPT','第 5 章 · 组织与领导','20 页 · 已提取文字与页码','已解析'],['卷','案例分析与简答题','7 题 · 50 分','已建卡'],['纲','课程核心框架','6 个主题模块','已关联']], radar:[['组织',86,'高'],['领导',78,'中'],['激励',64,'中'],['控制',45,'低']], question:'案例题中如何匹配领导方式与情境', explanation:'案例分析不能只罗列理论，应先提取任务结构、成员成熟度和环境，再给出匹配的管理动作。', steps:['抓取案例中的角色与约束','匹配理论模型的判断维度','给出具体管理动作并说明理由'], evidenceCards:[['课程 PPT · 第 14 页','情境领导的判断维度'],['案例分析题 · 第 1 题 · 15 分','领导方式选择与论证']], pitfall:'不要把领导风格名称当作答案本身，必须回应案例事实。', plan:[['今天','20:00','模型复述 · 18 分钟','用自己的话写出情境领导的判断流程。'],['+ 3 天','19:50','案例拆解 · 15 分钟','标注案例事实与理论依据的对应关系。'],['+ 7 天','20:10','限时案例题 · 22 分钟','完成 1 道案例题，按采分点更新掌握度。']] }
+    };
+    let currentCourse = 'custom';
+    const sourceList = document.getElementById('sourceList');
+    const radarContent = document.getElementById('radarContent');
+    const analysisContent = document.getElementById('analysisContent');
+    const planContent = document.getElementById('planContent');
+    const renderCourse = key => {
+      const course = courses[key]; currentCourse = key;
+      document.getElementById('courseTitle').textContent = `${course.name} · ${course.subtitle}`;
+      document.getElementById('evidenceCount').textContent = course.evidence;
+      document.getElementById('pptEvidence').textContent = course.ppt;
+      document.getElementById('priorityCount').textContent = course.priority;
+      document.getElementById('questionCount').textContent = course.questions;
+      document.getElementById('mastery').textContent = course.mastery;
+      document.getElementById('masteryNote').textContent = course.masteryNote;
+      document.getElementById('recallDate').textContent = course.recall;
+      document.getElementById('recallNote').textContent = course.recallNote;
+      sourceList.innerHTML = course.sources.map(item => `<div class="source"><div class="source-icon">${item[0]}</div><div><strong>${item[1]}</strong><span>${item[2]}</span></div><em>${item[3]}</em></div>`).join('');
+      document.getElementById('materialTag').textContent = `${course.sources.length} 类材料`;
+      const labels = course.radar.map(item => item[0]);
+      radarContent.innerHTML = `<svg class="radar-svg" viewBox="0 0 160 160" role="img" aria-label="${course.name}考点雷达图"><circle class="ring" cx="80" cy="80" r="58"/><circle class="ring" cx="80" cy="80" r="37"/><circle class="ring" cx="80" cy="80" r="17"/><path class="radar-axis" d="M80 18V142M18 80H142M36 36L124 124M124 36L36 124"/><path class="radar-fill" d="M80 24 L135 80 L82 111 L40 80 Z"/><text x="69" y="14" font-size="10">${labels[0]}</text><text x="129" y="76" font-size="10">${labels[1]}</text><text x="68" y="151" font-size="10">${labels[2]}</text><text x="5" y="76" font-size="10">${labels[3]}</text></svg><div class="legend">${course.radar.map(item => `<div class="legend-item"><div>${item[0]} <div class="bar"><i style="width:${item[1]}%"></i></div></div><b>${item[2]}</b></div>`).join('')}</div>`;
+      analysisContent.innerHTML = `<div class="question"><h3>${course.question}</h3><p>${course.explanation}</p>${course.steps.map((step,index) => `<div class="step"><span class="num">${index + 1}</span>${step}</div>`).join('')}</div><div class="evidence">${course.evidenceCards.map(card => `<div class="evidence-card"><small>${card[0]}</small><p>${card[1]}</p></div>`).join('')}<div class="evidence-card warn"><small>避坑提示</small><p>${course.pitfall}</p></div></div>`;
+      planContent.innerHTML = course.plan.map(item => `<div class="date"><b>${item[0]}</b>${item[1]}</div><div class="plan-item"><b>${item[2]}</b>${item[3]}</div>`).join('');
+      document.querySelectorAll('.course-option').forEach(option => option.classList.toggle('selected', option.dataset.course === key));
+    };
+    document.getElementById('generate').addEventListener('click', () => showToast(currentCourse === 'custom' ? '请先添加学习资料，再调用 TeleAgent Skill 生成基于证据的冲刺方案。' : `已为“${courses[currentCourse].name}”更新冲刺方案：优先安排高风险考点与错题复盘。`));
+    document.getElementById('recordMode').addEventListener('click', () => document.getElementById('modal').classList.add('open'));
+    document.getElementById('closeModal').addEventListener('click', () => { document.getElementById('modal').classList.remove('open'); document.getElementById('app').classList.add('recording'); showToast('已进入录制模式，侧栏已收起。'); });
+    const apiBase = location.protocol === 'file:' ? 'http://127.0.0.1:8765' : '';
+    const escapeHtml = value => String(value).replace(/[&<>'"]/g, char => ({'&':'&amp;','<':'&lt;','>':'&gt;',"'":'&#39;','"':'&quot;'}[char]));
+    const importedResults = [];
+    const showImportResult = result => {
+      importedResults.push(result);
+      const item = document.createElement('div'); item.className = 'source';
+      item.innerHTML = `<div class="source-icon">${escapeHtml(result.kind)}</div><div><strong>${escapeHtml(result.source)}</strong><span>${escapeHtml(result.summary)}</span></div><em>已解析</em>`;
+      sourceList.prepend(item);
+      const evidenceTotal = importedResults.reduce((sum, entry) => sum + entry.evidence.length, 0);
+      document.getElementById('courseTitle').textContent = `我的学习资料 · 已解析 ${importedResults.length} 份`;
+      document.getElementById('evidenceCount').textContent = evidenceTotal;
+      document.getElementById('pptEvidence').textContent = '每条结论保留来源位置';
+      document.getElementById('priorityCount').textContent = importedResults.length;
+      document.getElementById('questionCount').textContent = '等待 TeleAgent 生成考点';
+      document.getElementById('materialTag').textContent = `${importedResults.length} 份已解析资料`;
+      const cards = result.evidence.slice(0, 3).map(card => `<div class="evidence-card"><small>${escapeHtml(card.label)}</small><p>${escapeHtml(card.text)}</p></div>`).join('');
+      analysisContent.innerHTML = `<div class="question"><h3>已解析：${escapeHtml(result.source)}</h3><p>${escapeHtml(result.summary)}。以下为可追溯的原始证据预览；导入 TeleAgent 后可继续生成考点、题型和复习策略。</p><div class="step"><span class="num">1</span>资料文字已提取</div><div class="step"><span class="num">2</span>来源位置已保留</div><div class="step"><span class="num">3</span>等待 TeleAgent 生成学习行动</div></div><div class="evidence">${cards || '<div class="evidence-card"><small>提示</small><p>该文件未提取到可展示的正文。</p></div>'}</div>`;
+      planContent.innerHTML = '<div class="date"><b>已完成</b>资料导入</div><div class="plan-item"><b>来源证据已建立</b>已从当前资料中提取可追溯文本。</div><div class="date"><b>下一步</b>TeleAgent</div><div class="plan-item"><b>生成考点与错题卡</b>在 TeleAgent 中调用 Skill 完成课程级分析。</div><div class="date"><b>随后</b>开始复习</div><div class="plan-item"><b>创建主动回忆计划</b>依据薄弱点和真题分值安排复习。</div>';
+    };
+    document.getElementById('fileInput').addEventListener('change', async event => { const files = Array.from(event.target.files || []); if (!files.length) return; showToast(`正在解析 ${files.length} 份学习资料…`); for (const file of files) { const body = new FormData(); body.append('file', file); try { const response = await fetch(`${apiBase}/api/import`, { method:'POST', body }); const result = await response.json(); if (!response.ok) throw new Error(result.error || '解析失败'); showImportResult(result); } catch (error) { const item = document.createElement('div'); item.className = 'source'; item.innerHTML = `<div class="source-icon">!</div><div><strong>${escapeHtml(file.name)}</strong><span>${escapeHtml(error.message || '未能连接本地解析服务')}</span></div><em>待处理</em>`; sourceList.prepend(item); } } event.target.value = ''; showToast('资料导入完成：PPTX/TXT 已提取证据；PDF 请在 TeleAgent 中解析。'); });
+    renderCourse('custom');
+    document.querySelectorAll('.nav-item').forEach(button => button.addEventListener('click', () => { document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active')); button.classList.add('active'); }));
+  </script>
+</body>
+</html>
