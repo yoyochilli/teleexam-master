@@ -1,7 +1,5 @@
 # 星辰期末高效通｜TeleAgent 期末备考 Skill
 
-> 作品主体是 **TeleAgent Skill 智能体**，不是网页工作台。
-
 ## 下载并导入 Skill
 
 **[下载 teleexam-master-skill.zip](./teleexam-master-skill.zip)**
@@ -50,10 +48,6 @@
 请仅依据现有资料生成 6 题期末模拟测验。
 每题给出答案、评分点和资料依据；资料不足的考点不要命题。
 ```
-
-## GitHub 页面说明
-
-本仓库中的 GitHub Pages 仅用于展示产品理念与证据链界面。它不接收课程文件，也不替代 TeleAgent 的真实解析与生成能力。
 
 ## 隐私与边界
 
