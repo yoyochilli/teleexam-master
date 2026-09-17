@@ -16,7 +16,7 @@
 
 ## 如何体验
 
-1. 下载并在 TeleAgent 中导入 `teleexam-master-skill.zip`。
+1. 下载并在 TeleAgent 中导入 [`teleexam-master-skill.zip`](./teleexam-master-skill.zip)。
 2. 上传脱敏后的课程 PPTX、笔记 TXT、真题或考纲。
 3. 输入：`请按课件授课顺序整理复习笔记，每条结论标注资料证据；资料不足时标记资料缺失。`
 4. 使用“生成模拟测验”或“记录错题”继续完成备考闭环。
@@ -26,6 +26,10 @@
 GitHub Pages 仅展示产品流程与证据链界面，不接收课程文件。真实资料的上传、解析和生成均在 TeleAgent 中完成。
 
 访问地址：<https://yoyochilli.github.io/teleexam-workbench/>
+
+## Skill 包下载
+
+评审可直接下载：[teleexam-master-skill.zip](./teleexam-master-skill.zip)
 
 ## 隐私与边界
 
