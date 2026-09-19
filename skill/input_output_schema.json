@@ -1,0 +1,23 @@
+{
+  "skill_id": "teleagent-skill-teleexam-master",
+  "name": "星辰期末高效通",
+  "version": "1.3.0",
+  "inputs": {
+    "content": {"type": "string", "required": true},
+    "course_type": {"type": "string", "required": false, "enum": ["stem", "liberal_arts", "general"]},
+    "course_pptx": {"type": "file", "required": false, "accept": [".pptx"]},
+    "course_pdf": {"type": "file", "required": false, "accept": [".pdf"]},
+    "exam_requirements": {"type": "string", "required": false}
+  },
+  "outputs": {
+    "study_notes": "授课逻辑复习页",
+    "evidence_summary": "本次使用的证据标签与来源",
+    "mock_exam": "可选的证据约束模拟测验",
+    "review_action": "当天主动回忆任务与复习节点"
+  },
+  "invariants": [
+    "每条课程结论具有可定位证据",
+    "资料不足时明确标记资料缺失或待确认",
+    "模拟题、答案和评分点均可回指用户材料"
+  ]
+}

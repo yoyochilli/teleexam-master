@@ -1,0 +1,17 @@
+{
+  "id": "teleagent-skill-teleexam-master",
+  "name": "星辰期末高效通",
+  "version": "1.3.0",
+  "category": "校园生活",
+  "author": "参赛团队",
+  "description": "面向高校期末备考的证据约束学习技能：按教师授课顺序整理复习文档，严格依据课件与笔记输出，生成有出处的测验和复习行动。",
+  "entrypoint": "system_prompt.md",
+  "triggers": ["整理笔记", "按课件顺序整理", "期末复习", "分析真题", "考点归纳", "模拟测验", "错题记录", "复习计划"],
+  "inputs": [
+    {"name": "content", "type": "string", "required": true, "description": "用户目标或原始课程文本"},
+    {"name": "course_type", "type": "string", "required": false, "default": "general", "description": "stem / liberal_arts / general"},
+    {"name": "course_pptx", "type": "file", "required": false, "accept": [".pptx"], "description": "按页提取并保留 PPT 页码"},
+    {"name": "course_pdf", "type": "file", "required": false, "accept": [".pdf"], "description": "使用 TeleAgent 文档解析并保留 PDF 页码"},
+    {"name": "exam_requirements", "type": "string", "required": false, "description": "题型、题量或时长要求"}
+  ]
+}
