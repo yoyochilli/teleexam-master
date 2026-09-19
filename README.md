@@ -34,7 +34,7 @@
 
 ### 2. 忠于原文，不瞎编
 
-定义、公式、结论、分值和时间都必须标注 PPT 页码、真题题号、考纲章节或笔记关键词。资料找不到时明确写 `资料缺失` 或 `公式待确认`，不使用外部知识补写。
+定义、公式、结论、分值和时间采用三级置信度：`[确凿依据]` 保留精准页码，`[逻辑推导]` 列出全部前提与依赖，`[资料缺失]` 明确缺口和补救动作。生成前建立课程术语白名单，材料外的专业名词、定理、算子和符号体系会触发外部知识熔断。
 
 ### 3. 基于证据生成模拟测验
 
@@ -53,7 +53,10 @@ TeleAgent 自动完成资料盘点、文档解析、证据块建立、模式选�
 | [`skill/input_output_schema.json`](./skill/input_output_schema.json) | 输入输出字段和必须满足的约束 |
 | [`skill/workflow.md`](./skill/workflow.md) | TeleAgent 能力映射与任务自主拆解流程 |
 | [`skill/references/output_templates.md`](./skill/references/output_templates.md) | 复习页、模拟卷和雷达表模板 |
-| [`skill/scripts/`](./skill/scripts/) | PPTX 页级提取与文本清洗代码 |
+| [`skill/references/evidence_policy.md`](./skill/references/evidence_policy.md) | 术语白名单、三级置信度、推导链与公式保真协议 |
+| [`skill/scripts/`](./skill/scripts/) | PPTX 页级提取、文本清洗与证据标签审计代码 |
+
+评委可直接运行 [`examples/boundary_tests.md`](./examples/boundary_tests.md) 中的越界问题，检查 Skill 是否会拦截超纲术语、隐藏推导条件和模糊公式。
 
 ## 完整评审核验流程
 

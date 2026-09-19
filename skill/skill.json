@@ -1,10 +1,10 @@
 {
   "id": "teleagent-skill-teleexam-master",
   "name": "星辰期末高效通",
-  "version": "1.3.0",
+  "version": "1.4.0",
   "category": "校园生活",
   "author": "参赛团队",
-  "description": "面向高校期末备考的证据约束学习技能：按教师授课顺序整理复习文档，严格依据课件与笔记输出，生成有出处的测验和复习行动。",
+  "description": "面向高校期末备考的证据约束学习技能：按授课顺序整理复习文档，以术语白名单、三级置信度和推导依赖控制资料边界。",
   "entrypoint": "system_prompt.md",
   "triggers": ["整理笔记", "按课件顺序整理", "期末复习", "分析真题", "考点归纳", "模拟测验", "错题记录", "复习计划"],
   "inputs": [
