@@ -1,7 +1,7 @@
 {
   "skill_id": "teleagent-skill-teleexam-master",
   "name": "星辰期末高效通",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "inputs": {
     "content": {"type": "string", "required": true},
     "course_type": {"type": "string", "required": false, "enum": ["stem", "liberal_arts", "general"]},
@@ -13,6 +13,8 @@
     "study_notes": "授课逻辑复习页",
     "evidence_summary": "三级置信度、证据来源与推导依赖",
     "mock_exam": "可选的证据约束模拟测验",
+    "grill_turn": "单题单发的互动自测回合",
+    "scoring_audit": "题目结束后的采分点透视报告",
     "review_action": "当天主动回忆任务与复习节点"
   },
   "invariants": [
@@ -20,6 +22,8 @@
     "所有专业术语来自用户材料建立的术语白名单",
     "逻辑推导列出全部依赖且不引入外部定理或隐藏条件",
     "公式的变量、向量、上下标、正负号、单位和条件与资料逐项一致",
-    "模拟题、答案和评分点均可回指用户材料"
+    "模拟题、答案和评分点均可回指用户材料",
+    "Grill-Me 未解锁阶段每轮只有一道题或一个追问且不泄露答案",
+    "Grill-Me 每轮以问句结束并将继续权交给用户"
   ]
 }

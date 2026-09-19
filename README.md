@@ -44,6 +44,10 @@
 
 TeleAgent 自动完成资料盘点、文档解析、证据块建立、模式选择和结果校验。复合请求可串联“整理笔记 → 生成测验 → 错题复盘 → 复习计划”。
 
+### 5. 真题连环拷问
+
+输入“考考我”“进入拷打模式”或“高压自测”即可进入 Grill-Me 状态机。系统坚持单题单发与禁剧透，根据学生回答执行 Challenge、Dig Deeper 或 Scaffolding；一道题结束后生成采分点核验、课件直连和盲区入库报告。
+
 ## 明文 Skill 结构
 
 | 文件 | 评审可查看内容 |
@@ -54,9 +58,12 @@ TeleAgent 自动完成资料盘点、文档解析、证据块建立、模式选�
 | [`skill/workflow.md`](./skill/workflow.md) | TeleAgent 能力映射与任务自主拆解流程 |
 | [`skill/references/output_templates.md`](./skill/references/output_templates.md) | 复习页、模拟卷和雷达表模板 |
 | [`skill/references/evidence_policy.md`](./skill/references/evidence_policy.md) | 术语白名单、三级置信度、推导链与公式保真协议 |
+| [`skill/references/grill_me_mode.md`](./skill/references/grill_me_mode.md) | 单题单发、三阶追问、答案解锁与题后审计状态机 |
 | [`skill/scripts/`](./skill/scripts/) | PPTX 页级提取、文本清洗与证据标签审计代码 |
 
 评委可直接运行 [`examples/boundary_tests.md`](./examples/boundary_tests.md) 中的越界问题，检查 Skill 是否会拦截超纲术语、隐藏推导条件和模糊公式。
+
+[`examples/grill_turns/`](./examples/grill_turns/) 提供发题、Challenge、Scaffolding 和题后审计四个独立回合，可用 `grill_turn_auditor.py` 验证禁剧透与单题规则。
 
 ## 完整评审核验流程
 
