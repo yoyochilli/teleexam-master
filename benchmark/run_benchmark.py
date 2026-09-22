@@ -23,6 +23,7 @@ def load_module(name: str, path: Path):
 evidence = load_module("evidence_auditor", ROOT / "skill" / "scripts" / "evidence_auditor.py")
 grill = load_module("grill_turn_auditor", ROOT / "skill" / "scripts" / "grill_turn_auditor.py")
 delivery = load_module("delivery_auditor", ROOT / "skill" / "scripts" / "delivery_auditor.py")
+graph = load_module("evidence_graph_auditor", ROOT / "skill" / "scripts" / "evidence_graph_auditor.py")
 
 
 def grill_check(relative: str, phase: str) -> bool:
@@ -48,6 +49,12 @@ cases = [
         "expect": True,
     },
     {
+        "id": "GOLD-STUDY-MAP",
+        "group": "golden",
+        "passed": not graph.audit((ROOT / "examples" / "expected_study_map_output.md").read_text(encoding="utf-8-sig")),
+        "expect": True,
+    },
+    {
         "id": "BLOCK-UNTAGGED",
         "group": "violation",
         "passed": bool(evidence.check(FIXTURES / "bad_untagged_claim.md")["passed"]),
@@ -66,6 +73,12 @@ cases = [
         "id": "BLOCK-SELF-AUDIT",
         "group": "violation",
         "passed": not delivery.audit((FIXTURES / "bad_incomplete_self_audit.md").read_text(encoding="utf-8-sig")),
+        "expect": False,
+    },
+    {
+        "id": "BLOCK-ORPHAN-GRAPH",
+        "group": "violation",
+        "passed": not graph.audit((FIXTURES / "bad_orphan_graph.md").read_text(encoding="utf-8-sig")),
         "expect": False,
     },
 ]

@@ -26,6 +26,16 @@
 课程资料 → 可定位证据 → 考点与练习 → 错题复盘 → 复习行动
 ```
 
+## 评审价值一览
+
+| 评审维度 | 对应设计 | 评委可直接核验的证据 |
+| --- | --- | --- |
+| 选题契合与应用价值 | 面向“课件、笔记、真题割裂”的期末复习真实场景；不限定单一学科 | 导入任意课程 PPT/PDF/TXT 后先出资料体检与学习地图 |
+| 功能实现与产品体验 | 以“资料体检 → 最短学习路径 → 整理/自测 → 盲区复盘”降低首次使用门槛 | 复制 [`study_map_prompt.txt`](./examples/study_map_prompt.txt) 即可体验 |
+| 技术创新与实现质量 | 证据图谱、三级置信度、冲突隔离、禁剧透状态机、确定性审计 | 明文规则、审计脚本、14 条可复现 Benchmark 用例 |
+
+所有“重点、分值、频率、考试范围”均以用户资料为边界；资料不足时明确提示补充项，不虚构学习效果数据。
+
 ## 核心能力
 
 ### 1. 顺着授课逻辑整理可背诵笔记
@@ -54,18 +64,25 @@ TeleAgent 自动完成资料盘点、文档解析、证据块建立、模式选�
 
 评委可上传 [`examples/sample_conflicting_sources.txt`](./examples/sample_conflicting_sources.txt)，并与 [`expected_conflict_output.md`](./examples/expected_conflict_output.md) 对照；生成结果可用 `skill/scripts/delivery_auditor.py` 检查结构完整性。
 
+### 7. 资料体检与学习地图
+
+首次上传资料时，不要求学生先理解复杂设置：系统先说明每份资料能做什么，识别授课主线、考试边界、题型线索和个人薄弱项是否缺失，再给出最多 3 个可以立即执行的动作。动作均通过“来源节点 → 考点/盲区节点 → 用途节点”的证据图谱回溯，避免泛泛的复习建议。
+
+可复制 [`study_map_prompt.txt`](./examples/study_map_prompt.txt) 测试，并与 [`expected_study_map_output.md`](./examples/expected_study_map_output.md) 对照。
+
 ## 抗幻觉与命题质量定量对比基准
 
-`TeleExam Contract Benchmark v1` 使用 6 个合规黄金样例和 6 个故意违规样例，直接运行证据审计器、Grill-Me 审计器和交付审计器。结果可通过 [`benchmark/run_benchmark.py`](./benchmark/run_benchmark.py) 复现。
+`TeleExam Contract Benchmark v1` 使用 7 个合规黄金样例和 7 个故意违规样例，直接运行证据审计器、Grill-Me 审计器、交付审计器和证据图谱审计器。结果可通过 [`benchmark/run_benchmark.py`](./benchmark/run_benchmark.py) 复现。
 
 | 评测对象 | 样本数 | 目标 | 实测结果 |
 | --- | ---: | --- | ---: |
-| 合规黄金输出 | 6 | 正常通过审计门禁 | **6/6（100%）** |
-| 故意违规输出 | 6 | 成功识别并拦截 | **6/6（100%）** |
+| 合规黄金输出 | 7 | 正常通过审计门禁 | **7/7（100%）** |
+| 故意违规输出 | 7 | 成功识别并拦截 | **7/7（100%）** |
 | 三级证据标签 | 7 | 标签语法与依赖完整 | **7/7（100%）** |
 | Grill-Me 未解锁回合 | 3 | 答案/解析/评分剧透次数 | **0 次** |
 | Grill-Me 单题与问句收尾 | 3 | 单题单发且以 `？` 结束 | **3/3（100%）** |
 | 题后透视报告 | 1 | 三个审计区块完整 | **3/3 区块** |
+| 资料体检与证据图谱 | 2 | 图谱闭合与孤立节点拦截 | **2/2（100%）** |
 | 原有脚本回归 | 184 | 文本清洗与 PPTX 解析 | **184/184（100%）** |
 
 违规集覆盖：无证据结论、资料缺失但无补救动作、提前泄露答案、多题连发、题后审计字段不完整、资料冲突与自省字段缺失。完整口径与结果见 [`benchmark/`](./benchmark/) 和 [`results.json`](./benchmark/results.json)。
@@ -84,6 +101,7 @@ TeleAgent 自动完成资料盘点、文档解析、证据块建立、模式选�
 | [`skill/references/evidence_policy.md`](./skill/references/evidence_policy.md) | 术语白名单、三级置信度、推导链与公式保真协议 |
 | [`skill/references/grill_me_mode.md`](./skill/references/grill_me_mode.md) | 单题单发、三阶追问、答案解锁与题后审计状态机 |
 | [`skill/references/conflict_and_audit.md`](./skill/references/conflict_and_audit.md) | 多资料冲突隔离、冲突传播与交付前自省审计 |
+| [`skill/references/learning_map.md`](./skill/references/learning_map.md) | 首次资料体检、最短学习路径与证据图谱模板 |
 | [`skill/scripts/`](./skill/scripts/) | PPTX 页级提取、文本清洗与证据标签审计代码 |
 
 评委可直接运行 [`examples/boundary_tests.md`](./examples/boundary_tests.md) 中的越界问题，检查 Skill 是否会拦截超纲术语、隐藏推导条件和模糊公式。

@@ -1,7 +1,7 @@
 {
   "skill_id": "teleagent-skill-teleexam-master",
   "name": "星辰期末高效通",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "inputs": {
     "content": {"type": "string", "required": true},
     "course_type": {"type": "string", "required": false, "enum": ["stem", "liberal_arts", "general"]},
@@ -17,7 +17,9 @@
     "scoring_audit": "题目结束后的采分点透视报告",
     "review_action": "当天主动回忆任务与复习节点",
     "conflict_report": "资料冲突、影响范围与待确认动作",
-    "self_audit": "交付前证据覆盖、缺失、冲突、公式与越界术语审计"
+    "self_audit": "交付前证据覆盖、缺失、冲突、公式与越界术语审计",
+    "material_checkup": "资料可用性清单与复习准备度",
+    "learning_map": "最多三个可追溯的下一步动作与证据图谱快照"
   },
   "invariants": [
     "每条课程结论恰好属于确凿依据、逻辑推导或资料缺失之一",
@@ -28,6 +30,8 @@
     "Grill-Me 未解锁阶段每轮只有一道题或一个追问且不泄露答案",
     "Grill-Me 每轮以问句结束并将继续权交给用户",
     "互相矛盾的材料分别保留来源且不静默裁决",
-    "交付前给出可核验的自省审计摘要"
+    "交付前给出可核验的自省审计摘要",
+    "学习地图中的每个行动均回指资料或明确的缺失项",
+    "证据图谱中的考点和用途节点均不得孤立"
   ]
 }
