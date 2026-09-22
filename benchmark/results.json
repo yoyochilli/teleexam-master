@@ -1,11 +1,12 @@
 {
   "benchmark": "TeleExam Contract Benchmark v1",
   "scope": "规则与确定性审计器；不代表在线模型准确率",
-  "total_cases": 10,
-  "matched_expectation": 10,
-  "golden_acceptance": {"passed": 5, "total": 5, "rate": "100%"},
-  "violation_interception": {"passed": 5, "total": 5, "rate": "100%"},
+  "total_cases": 12,
+  "matched_expectation": 12,
+  "golden_acceptance": {"passed": 6, "total": 6, "rate": "100%"},
+  "violation_interception": {"passed": 6, "total": 6, "rate": "100%"},
   "evidence_tags_in_golden_output": 7,
   "pre_answer_spoiler_hits": 0,
-  "regression_tests": {"passed": 173, "total": 173}
+  "conflict_and_self_audit": {"passed": 2, "total": 2, "rate": "100%"},
+  "regression_tests": {"passed": 184, "total": 184}
 }

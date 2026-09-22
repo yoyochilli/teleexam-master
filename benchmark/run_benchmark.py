@@ -22,6 +22,7 @@ def load_module(name: str, path: Path):
 
 evidence = load_module("evidence_auditor", ROOT / "skill" / "scripts" / "evidence_auditor.py")
 grill = load_module("grill_turn_auditor", ROOT / "skill" / "scripts" / "grill_turn_auditor.py")
+delivery = load_module("delivery_auditor", ROOT / "skill" / "scripts" / "delivery_auditor.py")
 
 
 def grill_check(relative: str, phase: str) -> bool:
@@ -41,6 +42,12 @@ cases = [
     {"id": "GOLD-SCAFFOLD", "group": "golden", "passed": grill_check("examples/grill_turns/scaffold.txt", "scaffold"), "expect": True},
     {"id": "GOLD-AUDIT", "group": "golden", "passed": grill_check("examples/grill_turns/audit.md", "audit"), "expect": True},
     {
+        "id": "GOLD-CONFLICT-AUDIT",
+        "group": "golden",
+        "passed": not delivery.audit((ROOT / "examples" / "expected_conflict_output.md").read_text(encoding="utf-8-sig")),
+        "expect": True,
+    },
+    {
         "id": "BLOCK-UNTAGGED",
         "group": "violation",
         "passed": bool(evidence.check(FIXTURES / "bad_untagged_claim.md")["passed"]),
@@ -55,6 +62,12 @@ cases = [
     {"id": "BLOCK-SPOILER", "group": "violation", "passed": grill_check("benchmark/fixtures/bad_spoiler_ask.txt", "ask"), "expect": False},
     {"id": "BLOCK-MULTI", "group": "violation", "passed": grill_check("benchmark/fixtures/bad_multi_question.txt", "ask"), "expect": False},
     {"id": "BLOCK-AUDIT", "group": "violation", "passed": grill_check("benchmark/fixtures/bad_incomplete_audit.md", "audit"), "expect": False},
+    {
+        "id": "BLOCK-SELF-AUDIT",
+        "group": "violation",
+        "passed": not delivery.audit((FIXTURES / "bad_incomplete_self_audit.md").read_text(encoding="utf-8-sig")),
+        "expect": False,
+    },
 ]
 
 for case in cases:
