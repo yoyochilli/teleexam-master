@@ -27,9 +27,13 @@ def audit(text: str) -> list[str]:
             errors.append("证据图谱没有数据行")
         for row in data_rows:
             cells = [cell.strip() for cell in row.strip().strip("|").split("|")]
-            if len(cells) < 4 or not cells[0] or not cells[1] or not cells[2]:
+            if len(cells) != 4 or any(not cell for cell in cells):
                 errors.append("证据图谱存在孤立节点或空用途节点")
                 break
+            if cells[3] not in ("已闭合", "待确认", "资料冲突"):
+                errors.append("证据图谱状态无效")
+            if cells[3] == "已闭合" and any(word in cells[0] for word in ("缺失", "待补充", "未知", "待确认")):
+                errors.append("缺失来源不得标记为已闭合")
     return errors
 
 

@@ -1,7 +1,7 @@
 {
   "id": "teleagent-skill-teleexam-master",
   "name": "星辰期末高效通",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "category": "校园生活",
   "author": "参赛团队",
   "description": "面向高校期末备考的证据约束学习技能：先进行资料体检并生成学习地图，再以证据图谱、三级置信度、冲突隔离和自省审计控制事实边界。",

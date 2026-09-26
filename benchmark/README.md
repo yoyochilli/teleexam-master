@@ -1,6 +1,6 @@
 # TeleExam Contract Benchmark v1
 
-该基准量化检查 Skill 输出契约和确定性审计器，包含 6 个合规黄金样例与 6 个故意违规样例。
+该基准量化检查 Skill 输出契约和确定性审计器，包含 7 个合规黄金样例与 7 个故意违规样例。结构通过不代表来源真实或课程事实正确。
 
 ```powershell
 py -3 .\benchmark\run_benchmark.py

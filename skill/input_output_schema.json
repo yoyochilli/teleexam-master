@@ -1,7 +1,7 @@
 {
   "skill_id": "teleagent-skill-teleexam-master",
   "name": "星辰期末高效通",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "inputs": {
     "content": {"type": "string", "required": true},
     "course_type": {"type": "string", "required": false, "enum": ["stem", "liberal_arts", "general"]},
